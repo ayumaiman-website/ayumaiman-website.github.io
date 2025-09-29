@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Lapisan Konten - Tukar Posisi Konten</title>
+    <style>
+        /* --- CSS Tambahan untuk Layar Pembuka dan Musik --- */
+        #welcomeOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9); 
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 5000; 
+            transition: opacity 1s ease;
+        }
+
+        #openButton {
+            background-color: rgba(0, 123, 255, 0.4); 
+            color: white;
+            border: 2px solid white;
+            padding: 15px 30px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.5em;
+            font-weight: bold;
+            transition: background-color 0.3s, transform 0.3s;
+            backdrop-filter: blur(5px);
+            z-index: 5010; 
+        }
+        
+        #openButton:hover {
+            background-color: rgba(0, 123, 255, 0.7);
+            transform: scale(1.05);
+        }
+        
+        #backgroundAudio {
+            display: none;
+        }
+
+        /* CSS Dasar */
+        body { margin: 0; font-family: Arial, sans-serif; height: 100vh; overflow: hidden; }
+
+        /* Gaya Navbar (Fixed) - Z-INDEX DITINGKATKAN */
+        .navbar { 
+            background-color: #333; 
+            padding: 10px 20px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            color: white; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            z-index: 4500; /* Z-INDEX DITINGKATKAN */
+            box-sizing: border-box; 
+            height: 55px; 
+        }
+        .navbar-brand { display: flex; align-items: center; font-size: 1.4em; text-decoration: none; color: white; cursor: pointer; }
+.logo-placeholder { 
+    /* Ukuran Logo */
+    width: 35px; 
+    height: 35px; 
+    
+    /* Mengubah Latar Belakang dari Warna menjadi Gambar */
+    background-image: url('https://autoresbot.com/tmp_files/f700b427-32a5-4d7c-9480-17b2b490898c.jpg');
+    background-size: cover; /* Memastikan gambar mengisi seluruh area */
+    background-position: center; /* Memusatkan gambar */
+    
+    /* Bentuk Lingkaran */
+    border-radius: 50%; 
+    
+    /* Jarak di sebelah kanan */
+    margin-right: 8px; 
+    
+    /* Agar elemen terlihat (penting jika Anda tidak menggunakan tag <img>) */
+    display: inline-block; 
+}
+
+        .brand-text { font-weight: 600; }
+        .menu-button { background: none; color: white; border: none; padding: 8px 12px; cursor: pointer; border-radius: 5px; font-size: 1.4em; }
+        .menu-content { 
+            display: none; 
+            position: absolute; 
+            top: 55px; 
+            right: 20px; 
+            background-color: #444; 
+            min-width: 220px; 
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.4); 
+            z-index: 4501; /* Z-INDEX DITINGKATKAN */
+            border-radius: 5px; 
+            overflow: hidden; 
+        } 
+        .menu-content.show { display: block; }
+        .menu-content a { color: white; padding: 10px 14px; text-decoration: none; display: flex; align-items: center; transition: background-color 0.3s; }
+
+        /* Gaya Teks Berjalan (Navbar Kedua) */
+        .running-text-bar { position: fixed; top: 55px; left: 0; width: 100%; height: 25px; background-color: #007bff; color: white; line-height: 25px; overflow: hidden; z-index: 2000; font-size: 0.8em; padding: 0 10px; }
+        
+        /* --- Gaya Konten Umum --- */
+        #home-page, .content-layer {
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%;
+            margin-top: 80px; 
+            height: calc(100% - 80px); 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center;
+            align-items: center; 
+            text-align: center; 
+            color: white;
+            padding: 0 10px; 
+            background-size: cover; 
+            background-repeat: no-repeat;
+            background-position: center; 
+            z-index: 1; 
+            overflow-y: hidden;
+        }
+
+        #home-page { 
+            background-color: #222; 
+            z-index: 1; 
+            padding-top: 5px; 
+            padding-bottom: 5px; 
+        }
+
+        .rules-container { 
+            max-width: 700px; 
+            width: 95%; 
+            background-color: rgba(0, 0, 0, 0.7); 
+            padding: 15px; 
+            border-radius: 8px; 
+            font-size: 0.9em; 
+            line-height: 1.5; 
+            margin-top: 20px;
+            text-align: left;
+            overflow-y: auto; 
+            max-height: 70vh; 
+        }
+
+        .content-layer { 
+            z-index: 100; 
+            opacity: 0; 
+            pointer-events: none;
+            transition: opacity 0.5s ease; 
+            overflow-y: auto; 
+            padding-top: 20px;
+            padding-bottom: 20px;
+            display: block; 
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .content-layer.active { 
+            opacity: 1; 
+            pointer-events: auto;
+            z-index: 4000; /* Z-index di bawah Navbar */
+            display: flex; 
+        }
+        
+        #konten1 { 
+            background-image: url('https://autoresbot.com/tmp_files/e2ac37d0-afb3-495a-badf-79c2549ef157.jpg'); 
+            background-color: #0d47a1; 
+        } 
+        #konten2 { 
+            background-image: url('https://autoresbot.com/tmp_files/c2a8f401-0266-49ea-8300-3f7ce8f804f5.jpg'); 
+            background-color: #2a2a2a; 
+        } 
+        
+        .content-layer h2 { font-size: 2.5em; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); }
+        
+        .konten-body { 
+            display: none; 
+            width: 100%; 
+            align-items: center; 
+            flex-direction: column; 
+            text-align: center;
+            position: relative; 
+            z-index: 100;
+        }
+        .konten-body.show { display: flex; }
+        
+        .buka-button { 
+            background-color: #dc3545; 
+            color: white; 
+            border: none; 
+            padding: 12px 25px; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            margin-top: 15px; 
+            font-size: 1.2em; 
+            position: relative; 
+            z-index: 150; 
+        }
+        
+        .info-box { 
+            background-color: rgba(0, 0, 0, 0.7); 
+            padding: 15px; 
+            border-radius: 8px; 
+            max-width: 90%; 
+            margin: 10px auto; 
+            font-size: 1em; 
+            line-height: 1.5; 
+            position: relative; 
+            z-index: 10; 
+        }
+        
+        /* --- GAYA MODAL FORMULIR BARU --- */
+        .modal-overlay {
+            display: none; /* Default tersembunyi */
+            position: fixed;
+            z-index: 5000; /* Z-index tertinggi untuk overlay */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.8); /* Background gelap transparan */
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .custom-form-modal {
+            background-color: rgba(255, 255, 255, 0.98);
+            color: #333;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 400px;
+            width: 90%;
+            text-align: left;
+            position: relative; /* Penting untuk tombol close */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from {opacity: 0; transform: scale(0.9);}
+            to {opacity: 1; transform: scale(1);}
+        }
+
+        .close-button {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            line-height: 20px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close-button:hover,
+        .close-button:focus {
+            color: #dc3545;
+            text-decoration: none;
+        }
+
+        /* Tombol untuk MEMBUKA Modal */
+        .form-button { 
+            background-color: #28a745; 
+            color: white; 
+            border: none; 
+            padding: 10px 20px; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            margin-top: 15px; 
+            font-size: 1.1em; 
+            position: relative; 
+            z-index: 150; 
+        }
+        
+        /* Input dan Select di dalam formulir */
+        .custom-form-modal input, 
+        .custom-form-modal select {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0 15px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            position: relative;
+            z-index: 5010; /* Z-index tinggi untuk interaktivitas */
+        }
+        .custom-form-modal button[type="submit"] {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1em;
+            margin-top: 10px;
+        }
+
+
+        #contactListKuis, #contactListSilaturahmi { 
+            display: none; 
+            margin-top: 20px; 
+            max-width: 400px; 
+            width: 90%; 
+            background-color: rgba(255, 255, 255, 0.95); 
+            color: #333; 
+            padding: 20px; 
+            border-radius: 10px; 
+            text-align: left; 
+            position: relative; 
+            z-index: 160; 
+        }
+
+        .contact-group h4 { color: #dc3545; margin: 10px 0 5px 0; }
+        .contact-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px dotted #ccc; }
+        .contact-item button { background-color: #28a745; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+
+    <div id="welcomeOverlay">
+        <h1 style="margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">Selamat Datang!</h1>
+        <p style="margin-bottom: 30px; font-size: 1.1em; max-width: 80%; text-align: center;">Tekan tombol di bawah untuk masuk ke website dan memutar musik latar.</p>
+        <button id="openButton" onclick="openWebsite()">
+            Buka Website
+        </button>
+    </div>
+
+    <audio id="backgroundAudio" loop>
+        <source src="https://d.uguu.se/vfgjfbTu.mp3" type="audio/mp3">
+        Browser Anda tidak mendukung elemen audio.
+    </audio>
+
+    <nav class="navbar">
+        <a class="navbar-brand" onclick="hideAllContentLayers()">
+            <div class="logo-placeholder"></div>
+            <span class="brand-text">AYU MAIMAN</span>
+        </a>
+        
+        <div class="navbar-right">
+            <button class="menu-button" onclick="toggleMenu()">
+                &#9776;
+            </button>
+            <div class="menu-content" id="myMenu">
+                <a href="#" onclick="hideAllContentLayers()">
+                    <span role="img" aria-label="Home">🏠</span> Home
+                </a>
+                <a href="#" onclick="showContentLayer('konten1')">
+                    <span role="img" aria-label="Konten 1">💰</span> Grup Pejuang Kuis/Rupiah
+                </a>
+                <a href="#" onclick="showContentLayer('konten2')">
+                    <span role="img" aria-label="Konten 2">👥</span> Silahturahmi Cari Kawan
+                </a>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="running-text-bar">
+        <marquee behavior="scroll" direction="left" scrollamount="6">
+            selamat datang di website resmi ayumaiman, yuk bergabun bke grup whatsappku, pilih ya mau gabung ke grup yang mana
+        </marquee>
+    </div>
+
+    <section id="home-page">
+        <h2>Selamat Datang!</h2>
+        <p>pilih grup pilihan mu di menu kanan atas</p>
+        
+        <div class="rules-container">
+            <h2>Peraturan Grup: 💸🍂🌸</h2>
+            <p>
+                ✓ Yang baru bergabung langsung **japri owner** intro **Nama/ Askot**<br>
+                ✓ Anggota wajib save nmr owner/admin<br>
+                ✓ Noo **Bullying**<br>
+                ✓ Jangan **baperan**<br>
+                ✓ Dilarang **promosi / berjualan** tanpa sepengetahuan admin<br>
+                ✓ Dilarang sebar **link grup lain** tanpa ijin dari para admin dan owner<br>
+                ✓ Tidak boleh menggunakan **boot** di GC ini tanpa seijin para admin dan owner grup<br>
+                ✓ Jangan **spam stiker** secara berlebihan<br>
+                ✓ Jawab **soal** dengan baik dan benar<br>
+                ✓ Jika ada yang meminjam uang secara pribadi maka itu **bukan tanggungjawab owner/admin**<br>
+                ✓ Anggota **boleh buat kuis dan bagi dana kaget** dalam grup ini<br>
+                ✓ Anggota yang punya **saluran** di bolehkan promosi<br>
+                ✓ Jangan **keluar masuk grup** seenaknya<br>
+                ✓ Diperbolehkan **audio** dalam GC ini<br>
+                ✓ Grup pejuang rupiah satunya kena banned tanggal bikin 03-12-2024
+            </p>
+            <p style="text-align: center; font-weight: bold; margin-top: 10px;">
+                Terimakasih semuanya semoga betah di grup kami 💸🤑❤️🔥
+            </p>
+        </div>
+    </section>
+
+    <section id="konten1" class="content-layer">
+        <h2 id="konten1-title">Grup Pejuang Kuis/Rupiah</h2>
+        <button id="bukaButton1" class="buka-button" onclick="toggleKontenBody('konten1')">
+            Buka Konten
+        </button>
+        <div id="konten1Body" class="konten-body">
+            <div class="info-box">
+                <p>Selamat datang Pejuang Rupiah! Di sini, kamu bisa mengasah otak, bersenang-senang, dan berkesempatan mendapatkan **dana kaget** dari hasil kuis seru! Jika kamu siap beradu cepat dan tepat, grup ini adalah tempatnya.</p>
+                <p>Tertarik gabung? Klik tombol di bawah dan isi formulir singkat untuk konfirmasi kehadiranmu!</p>
+            </div>
+            <button class="form-button" onclick="openModal('modalKuis')">
+                Isi Formulir Gabung Kuis
+            </button>
+            <div id="contactListKuis">
+                <h3 style="text-align: center;">Pilih Kontak Admin/Owner untuk Japri</h3>
+                <div id="contactItemsKuis"></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="konten2" class="content-layer">
+        <h2 id="konten2-title">Silahturahmi Cari Kawan</h2>
+        <button id="bukaButton2" class="buka-button" onclick="toggleKontenBody('konten2')">
+            Buka Konten
+        </button>
+        <div id="konten2Body" class="konten-body">
+            <div class="info-box">
+                <p>Halo para pencari kawan sejati! Di sini, kita merayakan **keindahan berkawan**, menjalin ikatan yang tulus, dan berbagi cerita tanpa batas. Mari bersama-sama memperluas jaringan persahabatan kita.</p>
+                <p>Jika kamu tertarik untuk menjadi bagian dari komunitas yang positif ini, klik tombol di bawah dan **isi formulir singkat** untuk memperkenalkan dirimu!</p>
+            </div>
+            <button class="form-button" onclick="openModal('modalSilahturahmi')">
+                Isi Formulir Cari Kawan
+            </button>
+            <div id="contactListSilaturahmi">
+                <h3 style="text-align: center;">Pilih Kontak Admin/Owner untuk Japri</h3>
+                <div id="contactItemsSilaturahmi"></div>
+            </div>
+        </div>
+    </section>
+
+    <div id="modalKuis" class="modal-overlay">
+        <form id="formKuis" class="custom-form-modal" onsubmit="submitForm(event, 'formKuis')">
+            <span class="close-button" onclick="closeModal('modalKuis')">&times;</span>
+            <h3 style="text-align:center; margin-top:10px;">Grup Pejuang Kuis/Rupiah</h3>
+            <label for="nama_kuis">Nama Lengkap:</label>
+            <input type="text" id="nama_kuis" name="nama" required>
+            <label for="kota_kuis">Asal Kota:</label>
+            <input type="text" id="kota_kuis" name="kota" required>
+            <button type="submit">Kirim Formulir</button>
+        </form>
+    </div>
+
+    <div id="modalSilahturahmi" class="modal-overlay">
+        <form id="formSilahturahmi" class="custom-form-modal" onsubmit="submitForm(event, 'formSilahturahmi')">
+            <span class="close-button" onclick="closeModal('modalSilahturahmi')">&times;</span>
+            <h3 style="text-align:center; margin-top:10px;">Silahturahmi Cari Kawan</h3>
+            <label for="nama_silaturahmi">Nama Lengkap:</label>
+            <input type="text" id="nama_silaturahmi" name="nama" required>
+            <label for="usia">Usia:</label>
+            <input type="text" id="usia" name="usia" required>
+            <label for="kota_silaturahmi">Asal Kota:</label>
+            <input type="text" id="kota_silaturahmi" name="kota" required>
+            <label for="status">Status:</label>
+            <select id="status" name="status" required>
+                <option value="">-- Pilih Status --</option>
+                <option value="Single">Single</option>
+                <option value="Berpacaran">Berpacaran</option>
+                <option value="Menikah">Menikah</option>
+            </select>
+            <button type="submit">Kirim Formulir</button>
+        </form>
+    </div>
+
+
+    <script>
+        // Data Kontak Konten 1 (Kuis)
+        const CONTACTS_KUIS = [
+            { role: "Owner", name: "Ayumaiman", number: "+62 858-2238-2486" },
+            { role: "Admin", name: "Sri Wahyuni", number: "+62 851-3670-4543" },
+            { role: "Admin", name: "Sintia Ramadhaniy", number: "+62 857-3962-1119" },
+            // Nomor Helmi Safitri diubah ke format internasional yang konsisten
+            { role: "Admin", name: "Helmi Safitri", number: "+62 882-2662-8207" },
+            { role: "Admin", name: "Bang Ben", number: "+62 857-3962-1119" },
+            { role: "Admin", name: "Bang Aditya", number: "+60 11-3781 2385" },
+            { role: "Admin", name: "Bang kian", number: "+62 857-3962-1119" },
+            { role: "Admin", name: "Bang Ucup", number: "+62 823-1095-0351" }
+        ];
+
+        // Data Kontak Konten 2 (Silahturahmi)
+        const CONTACTS_SILATURAHMI = [
+            { role: "Owner", name: "Ayumaiman", number: "+62 858-2238-2486" },
+            { role: "Admin", name: "Sri Wahyuni", number: "+62 851-3670-4543" },
+            { role: "Admin", name: "Sintia Ramadhaniy", number: "+62 857-3962-1119" },
+            // Nomor Helmi Safitri diubah ke format internasional yang konsisten
+            { role: "Admin", name: "Helmi Safitri", number: "+62 882-2662-8207" },
+            { role: "Admin", name: "Bang Ben", number: "+62 857-3962-1119" },
+            { role: "Admin", name: "allone", number: "+62 819-1800-5934" },
+            { role: "Admin", name: "Bang Ucup", number: "+62 823-1095-0351" }
+        ];
+        
+        // FUNGSI: Menutup Overlay dan Memutar Musik
+        function openWebsite() {
+            const overlay = document.getElementById('welcomeOverlay');
+            const audio = document.getElementById('backgroundAudio');
+
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.style.display = 'none';
+            }, 1000); 
+
+            audio.play().catch(error => {
+                console.log("Autoplay gagal, mungkin ada batasan browser: ", error);
+            });
+        }
+
+
+        function toggleMenu() {
+            document.getElementById("myMenu").classList.toggle("show");
+        }
+
+        function hideAllContentLayers() {
+            var layers = document.querySelectorAll('.content-layer');
+            layers.forEach(function(layer) {
+                layer.classList.remove('active');
+            });
+            document.getElementById("myMenu").classList.remove('show');
+            
+            // Sembunyikan daftar kontak saat kembali ke Home
+            document.getElementById('contactListKuis').style.display = 'none';
+            document.getElementById('contactListSilaturahmi').style.display = 'none';
+            
+            // Tutup semua modal jika ada yang terbuka
+            closeModal('modalKuis');
+            closeModal('modalSilahturahmi');
+        }
+        
+        function showContentLayer(contentId) {
+            hideAllContentLayers();
+
+            var activeLayer = document.getElementById(contentId);
+            if (activeLayer) {
+                 activeLayer.classList.add('active');
+            }
+            
+            // RESET TAMPILAN KONTEN 1 dan 2
+            document.getElementById('bukaButton1').style.display = 'block';
+            document.getElementById('konten1Body').classList.remove('show');
+            document.getElementById('bukaButton2').style.display = 'block';
+            document.getElementById('konten2Body').classList.remove('show');
+        }
+        
+        function toggleKontenBody(contentId) {
+            var bodyId = contentId + 'Body';
+            var buttonId = 'bukaButton' + contentId.slice(-1); 
+
+            var body = document.getElementById(bodyId);
+            var button = document.getElementById(buttonId);
+
+            body.classList.add('show');
+            button.style.display = 'none';
+            
+            // Sembunyikan daftar kontak jika ada
+            if (contentId === 'konten1') {
+                document.getElementById('contactListKuis').style.display = 'none';
+            } else if (contentId === 'konten2') {
+                document.getElementById('contactListSilaturahmi').style.display = 'none';
+            }
+
+            body.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        
+        // FUNGSI BARU: Buka Modal
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+            // Sembunyikan daftar kontak
+            document.getElementById('contactListKuis').style.display = 'none';
+            document.getElementById('contactListSilaturahmi').style.display = 'none';
+        }
+
+        // FUNGSI BARU: Tutup Modal
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+        
+        function openWhatsApp(number, name, message) {
+            let cleanNumber = number.replace(/[\s-()]/g, '').replace('++', '');
+            
+            if (cleanNumber.startsWith('0')) {
+                cleanNumber = '62' + cleanNumber.substring(1);
+            }
+            if (cleanNumber.startsWith('+')) {
+                cleanNumber = cleanNumber.substring(1);
+            }
+
+            const encodedMessage = encodeURIComponent(message);
+            const waLink = `https://wa.me/${cleanNumber}?text=${encodedMessage}`;
+            
+            window.open(waLink, '_blank');
+        }
+
+        /* * FUNGSI DISPLAY CONTACTS YANG DIPERBAIKI
+         * Menggunakan addEventListener dan pembuatan elemen DOM 
+         * untuk menghindari masalah parsing string kutipan di atribut 'onclick'
+         */
+        function displayContacts(formId, data) {
+            let contacts, containerId, listDivId, messageBody;
+            
+            if (formId === 'formKuis') {
+                contacts = CONTACTS_KUIS;
+                containerId = 'contactItemsKuis';
+                listDivId = 'contactListKuis';
+                // Teks pesan WA untuk Kuis
+                messageBody = `Halo kak, saya *${data.nama}* dari *${data.kota}* ingin gabung ke grup Pejuang Kuis/Rupiah. Mohon direspon ya kak. Terima kasih!`;
+            
+            } else if (formId === 'formSilahturahmi') {
+                contacts = CONTACTS_SILATURAHMI;
+                containerId = 'contactItemsSilaturahmi';
+                listDivId = 'contactListSilaturahmi';
+                // Teks pesan WA untuk Silahturahmi
+                messageBody = `Halo kak, saya *${data.nama}* ingin gabung ke grup Silahturahmi Cari Kawan. Berikut info singkat saya:\nNama: ${data.nama}\nUsia: ${data.usia}\nAsal Kota: ${data.kota}\nStatus: ${data.status}\n\nMohon direspon ya kak. Terima kasih!`;
+            }
+            
+            const container = document.getElementById(containerId);
+            const contactListDiv = document.getElementById(listDivId);
+            container.innerHTML = '';
+            
+            let currentRole = '';
+            
+            contacts.forEach(contact => {
+                if (contact.role !== currentRole) {
+                    currentRole = contact.role;
+                    const roleHeader = document.createElement('h4');
+                    roleHeader.textContent = currentRole + ':';
+                    container.appendChild(roleHeader);
+                }
+
+                const item = document.createElement('div');
+                item.className = 'contact-item';
+
+                // Buat konten teks
+                item.innerHTML = `
+                    <span>
+                        <strong>${contact.name}</strong><br>
+                        <small>${contact.number}</small>
+                    </span>
+                `;
+                
+                // Buat tombol dan tambahkan event listener (SOLUSI BUG)
+                const button = document.createElement('button');
+                button.textContent = 'Japri WA';
+                
+                // Menggunakan addEventListener lebih aman daripada string onclick
+                button.addEventListener('click', () => {
+                     openWhatsApp(contact.number, contact.name, messageBody);
+                });
+                
+                item.appendChild(button); // Tambahkan tombol ke item
+                container.appendChild(item); // Tambahkan item ke container
+            });
+            
+            // Tutup modal setelah submit
+            if (formId === 'formKuis') {
+                closeModal('modalKuis');
+            } else if (formId === 'formSilahturahmi') {
+                closeModal('modalSilahturahmi');
+            }
+            
+            contactListDiv.style.display = 'block';
+            contactListDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+
+        function submitForm(event, formId) {
+            event.preventDefault(); 
+            
+            if (formId === 'formKuis') {
+                var data = {
+                    nama: document.getElementById('nama_kuis').value,
+                    kota: document.getElementById('kota_kuis').value
+                };
+                displayContacts(formId, data);
+            
+            } else if (formId === 'formSilahturahmi') {
+                var data = {
+                    nama: document.getElementById('nama_silaturahmi').value,
+                    usia: document.getElementById('usia').value,
+                    kota: document.getElementById('kota_silaturahmi').value,
+                    status: document.getElementById('status').value
+                };
+                displayContacts(formId, data);
+            }
+            
+            document.getElementById(formId).reset();
+        }
+
+        window.onclick = function(event) {
+            if (!event.target.matches('.menu-button') && !event.target.closest('.menu-content')) {
+                document.getElementById("myMenu").classList.remove('show');
+            }
+            
+            // Tutup modal jika mengklik di luar form (kecuali di form Kuis atau Silaturahmi)
+            if (event.target.classList.contains('modal-overlay')) {
+                closeModal(event.target.id);
+            }
+        }
+    </script>
+
+</body>
+</html>
