@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AYUMAIMAN SAHABAT ONLINE</title>
+    <meta property="og:image" content="https://g.top4top.io/p_34597mmwe0.jpg">
+    <meta property="og:title" content="Website Elegan">
+    <meta property="og:description" content="Selamat datang di Website Elegan! Temukan peraturan grup, daftar grup, dan kontak penting di sini.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- CSS Dasar untuk Styling dan Animasi (Elegan & Hitam) --- */
+        body {
+            margin: 0;
+            font-family: 'Poppins', Arial, sans-serif; /* Font bersih dan modern */
+            font-style: normal; /* Menghapus italic bawaan */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            /* PERUBAHAN SPESIFIK: Ganti background-image sesuai permintaan */
+            background-image: url('https://autoresbot.com/tmp_files/d46a7f61-a574-438d-b6d1-ef7ef6cf49ae.jpg'); 
+            background-color: #1a1a1a; /* Fallback warna hitam/gelap */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            overflow: hidden;
+            color: #e0e0e0; /* Teks berwarna terang */
+            text-align: center;
+        }
+        .container {
+            padding: 30px;
+            border-radius: 10px; /* Sudut lebih tajam */
+            /* Background kontainer menjadi hitam semi-transparan */
+            background-color: transparent; 
+            /* Bayangan lebih tegas tapi tidak mencolok */
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+            transform: scale(0.8);
+            opacity: 0;
+            transition: all 0.5s ease-out;
+            max-width: 90%;
+            flex-direction: column;
+            align-items: center;
+            gap: 25px;
+            max-height: 90vh;
+            overflow-y: auto;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.1); /* Garis tepi tipis elegan */
+        }
+        .container::-webkit-scrollbar {
+            display: none;
+        }
+        .container.active {
+            transform: scale(1);
+            opacity: 1;
+        }
+        /* Struktur konten tetap sama */
+        #initial-content, #main-content, #button-content-display, #form-content-display {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+        }
+        #button-content-display, #form-content-display {
+            overflow: hidden;
+            position: relative;
+            padding-top: 50px;
+        }
+        #scrollable-content, #form-scrollable-content {
+            width: 100%;
+            max-height: calc(90vh - 80px);
+            overflow-y: auto;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            padding-top: 0;
+        }
+        #scrollable-content::-webkit-scrollbar, #form-scrollable-content::-webkit-scrollbar {
+            display: none;
+        }
+        #initial-content.active, #main-content.active, #button-content-display.active, #form-content-display.active {
+            display: flex;
+        }
+        h1 {
+            font-size: 3.5em;
+            color: #ffcc00; /* Aksen warna emas/kuning elegan */
+            margin-bottom: 20px;
+            animation: bounceIn 1s ease-out;
+            font-family: 'Poppins', serif; /* Font Poppins tebal atau Serif */
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+        h2 {
+            font-size: 2.2em;
+            color: #cccccc; /* Abu-abu terang untuk sub-judul */
+            font-family: 'Poppins', serif;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        #content-display-title, #form-display-title {
+            position: static;
+            width: auto;
+            transform: none;
+            text-align: center;
+            margin-bottom: 25px;
+            font-family: 'Poppins', serif;
+            font-weight: 700;
+            font-size: 2.5em;
+            color: #ffcc00; /* Warna emas */
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(255, 204, 0, 0.3);
+        }
+        p {
+            font-size: 1.1em;
+            color: #aaaaaa;
+            margin-bottom: 10px;
+            font-style: normal;
+        }
+        /* Styling untuk setiap "bait" peraturan dan item grup */
+        .rule-item {
+            /* Latar belakang rule item gelap, border tipis */
+            background-color: rgba(40, 40, 40, 0.9); 
+            border-radius: 8px;
+            padding: 18px 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+            width: 85%;
+            max-width: 500px;
+            text-align: left;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            border-left: 3px solid #ffcc00; /* Garis aksen elegan */
+        }
+        .rule-item-icon {
+            font-size: 1.5em;
+            color: #ffcc00;
+            flex-shrink: 0;
+            font-style: normal;
+        }
+        .rule-item-text {
+            font-size: 1.1em;
+            color: #e0e0e0;
+            line-height: 1.5;
+            font-style: normal;
+            font-family: Arial, sans-serif;
+        }
+        /* Gaya teks untuk teks di dalam tombol grup */
+        .group-item-button .rule-item-text {
+            font-family: 'Poppins', sans-serif;
+            font-style: normal;
+            font-weight: 600;
+            color: #1a1a1a; /* Teks gelap di background terang */
+        }
+        .thank-you-message {
+            margin-top: 30px;
+            font-size: 1.4em;
+            color: #ffcc00;
+            font-style: normal;
+            font-weight: 600;
+        }
+        button {
+            padding: 15px 35px;
+            font-size: 1.4em;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            /* Tombol utama hitam dengan aksen emas */
+            background-color: #ffcc00; 
+            color: #1a1a1a; /* Teks hitam */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+            font-style: normal;
+        }
+        button:hover {
+            transform: translateY(-3px) scale(1.02);
+            background-color: #e6b800; /* Sedikit lebih gelap saat hover */
+            color: #000000;
+        }
+        button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+        .main-buttons button {
+            width: 300px; /* Lebar tombol yang seragam */
+            letter-spacing: 1px;
+        }
+        /* Gaya untuk tombol grup di dalam "Kumpulan Grup" */
+        .group-item-button {
+            /* Tombol grup elegan (putih/abu-abu terang) */
+            background-color: #f0f0f0; 
+            color: #1a1a1a;
+            text-align: center;
+            font-family: 'Poppins', sans-serif;
+            font-style: normal;
+            padding: 18px 25px;
+            font-size: 1.3em;
+            border-left: 5px solid #ffcc00;
+            border-radius: 8px;
+            width: 85%;
+            max-width: 500px;
+        }
+        .group-item-button:hover {
+            background-color: #e6e6e6;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+        .group-item-button:active {
+            transform: translateY(0);
+        }
+        /* --- Gaya Tombol Kembali (Silang) --- */
+        #backButton, #backToContactsButton {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            /* Warna tombol kembali: Hitam dengan teks emas */
+            background-color: #2c2c2c;
+            color: #ffcc00;
+            font-size: 1.8em;
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+            z-index: 20;
+            animation: none; /* Menghapus animasi pulse yang imut */
+        }
+        #backButton:hover, #backToContactsButton:hover {
+            background-color: #ffcc00;
+            color: #1a1a1a;
+            transform: scale(1.05);
+        }
+        #backButton:active, #backToContactsButton:active {
+            transform: scale(0.95);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        /* --- Animasi --- */
+        @keyframes bounceIn {
+            0% { transform: scale(0.1); opacity: 0; }
+            60% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); }
+        }
+        /* New animation for the start button image (tetap, tapi lebih halus) */
+        @keyframes pulseCute {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+        .content-transition {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .content-transition.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* --- Gaya Baru untuk Tampilan Kontak Nama Saja --- */
+        .contact-name-item {
+            /* Warna elegan (abu-abu gelap, teks terang) */
+            background-color: #333333;
+            border-radius: 8px;
+            padding: 15px 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            width: 85%;
+            max-width: 450px;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            font-style: normal;
+            font-weight: 600;
+            font-size: 1.4em;
+            color: #ffcc00; /* Aksen emas */
+        }
+        .contact-name-item:hover {
+            background-color: #444444;
+            transform: translateY(-3px);
+        }
+        .contact-name-item:active {
+            transform: translateY(0);
+        }
+        /* --- Gaya Formulir Input --- */
+        .form-section {
+            background-color: #1e1e1e; /* Warna latar belakang formulir lebih gelap */
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+            width: 85%;
+            max-width: 500px;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            border: 1px solid rgba(255, 204, 0, 0.1);
+        }
+        .form-section label {
+            font-size: 1.1em;
+            color: #ffcc00; /* Label dengan warna emas */
+            font-weight: 600;
+            display: block;
+            margin-bottom: 5px;
+            font-style: normal;
+        }
+        .form-section input[type="text"],
+        .form-section input[type="number"] {
+            width: calc(100% - 20px);
+            padding: 12px;
+            border: 1px solid #444444;
+            border-radius: 8px;
+            font-size: 1em;
+            color: #e0e0e0;
+            background-color: #2a2a2a; /* Input field gelap */
+            transition: border-color 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            font-style: normal;
+        }
+        .form-section input[type="text"]:focus,
+        .form-section input[type="number"]:focus {
+            outline: none;
+            border-color: #ffcc00;
+            box-shadow: 0 0 0 3px rgba(255, 204, 0, 0.3);
+        }
+        .form-submit-button {
+            padding: 14px 25px;
+            font-size: 1.3em;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            background-color: #ffcc00;
+            color: #1a1a1a;
+            border: none;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-style: normal;
+        }
+        .form-submit-button:hover {
+            background-color: #e6b800;
+            transform: translateY(-2px);
+        }
+        /* --- Gaya untuk Logo dan Nama Grup --- */
+        .group-logo-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .group-logo {
+            max-width: 150px;
+            height: auto;
+            border-radius: 5px; /* Sedikit melengkung */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            border: 3px solid #ffcc00; /* Border emas */
+        }
+        .group-name {
+            font-size: 1.5em;
+            color: #ffcc00;
+            font-family: 'Poppins', serif;
+            font-weight: 700;
+            margin-top: 15px;
+        }
+        /* Styling for the new start image button */
+        .start-image-button-wrapper {
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            animation: pulseCute 2s infinite ease-in-out; 
+        }
+        .start-image-button-wrapper:hover {
+            transform: scale(1.03);
+        }
+        .start-image-button-wrapper:active {
+            transform: scale(0.98);
+        }
+        .start-image-button {
+            width: 280px; /* Sedikit lebih besar */
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+        }
+        /* Gaya khusus untuk tombol pilihan peraturan */
+        .rule-select-button {
+            width: 85%;
+            max-width: 500px;
+            padding: 18px 25px;
+            font-size: 1.3em;
+            background-color: #333333;
+            color: #ffcc00;
+            border: 1px solid #ffcc00;
+            margin: 10px 0;
+        }
+        .rule-select-button:hover {
+            background-color: #ffcc00;
+            color: #1a1a1a;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="main-container">
+        <div id="initial-content" class="active content-transition">
+            <div class="start-image-button-wrapper" id="startButton">
+                <img src="https://k.top4top.io/p_3459dlq3t0.png" alt="Mulai Petualangan" class="start-image-button">
+            </div>
+        </div>
+        <div id="main-content" class="main-buttons content-transition">
+            <h2>Pilih Opsi Anda:</h2>
+            <button id="peraturanButton">1. Peraturan Grup</button>
+            <button id="kumpulanButton">2. Kumpulan Grup</button>
+            <button id="saveOwnerButton">3. Save Owner</button>
+        </div>
+        <div id="button-content-display" class="content-transition">
+            <button id="backButton">X</button>
+            <div id="scrollable-content">
+                <h2 id="content-display-title"></h2>
+            </div>
+        </div>
+        <div id="form-content-display" class="content-transition">
+            <button id="backToContactsButton" class="backButton">X</button> 
+            <div id="form-scrollable-content">
+            </div>
+        </div>
+    </div>
+    <audio id="backgroundMusic" loop>
+        <source src="https://files.catbox.moe/7k058r.mp3" type="audio/mpeg">
+        Browser Anda tidak mendukung elemen audio.
+    </audio>
+    <script>
+        const startButton = document.getElementById('startButton');
+        const initialContent = document.getElementById('initial-content');
+        const mainContent = document.getElementById('main-content');
+        const buttonContentDisplay = document.getElementById('button-content-display');
+        const formContentDisplay = document.getElementById('form-content-display');
+        const backgroundMusic = document.getElementById('backgroundMusic');
+        const mainContainer = document.getElementById('main-container');
+        const backButton = document.getElementById('backButton');
+        const backToContactsButton = document.getElementById('backToContactsButton');
+        const scrollableContent = document.getElementById('scrollable-content');
+        const formScrollableContent = document.getElementById('form-scrollable-content');
+        const peraturanButton = document.getElementById('peraturanButton');
+        const kumpulanButton = document.getElementById('kumpulanButton');
+        const saveOwnerButton = document.getElementById('saveOwnerButton');
+        let currentTargetContact = {
+            name: '',
+            phone: '',
+            groupName: '',
+            purpose: '',
+            formType: ''
+        };
+
+        // =========================================================================
+        // --- DATA KONTAK DIPERBARUI SESUAI PERMINTAAN USER ---
+        // =========================================================================
+        const owners = {
+            ayumaiman: { name: 'AYUMAIMAN', phone: '6285822382486', logo: 'https://g.top4top.io/p_34597mmwe0.jpg' },
+            selvie: { name: 'SELVIE SETIAWATI', phone: '6285187426233', logo: 'https://h.top4top.io/p_3459y66gk1.jpg' } // Data lama, dipertahankan jika masih relevan
+        };
+        
+        // Admin umum (semua admin yang disebut di dua grup akan didaftarkan di sini)
+        const admins = {
+            sri: { name: 'Sri Wahyuni', phone: '6285136704543' },
+            sintia: { name: 'Sintia Ramadhiny', phone: '6285739621119' },
+            helmi: { name: 'Helmi Safitri', phone: '6288226628207' },
+            bangBen: { name: 'Bang Ben', phone: '6285739621119' },
+            bangAditya: { name: 'Bang Aditya', phone: '601137812385' },
+            bangKian: { name: 'Bang Kian', phone: '6285739621119' },
+            bangUcup: { name: 'Bang Ucup', phone: '6282310950351' },
+            rizky: { name: 'RIZKY', phone: '6283189668641' },
+            alone: { name: 'Alone', phone: '6281918005934' } // Khusus SCK
+        };
+        
+        // PENENTUAN KONTAK SPESIFIK UNTUK MASING-MASING GRUP
+        const groupContacts = {
+            'PEJUANG RUPIAH/KUIS': [
+                { type: 'owner', data: owners.ayumaiman },
+                { type: 'admin', data: admins.sri },
+                { type: 'admin', data: admins.sintia },
+                { type: 'admin', data: admins.helmi },
+                { type: 'admin', data: admins.bangBen },
+                { type: 'admin', data: admins.bangAditya },
+                { type: 'admin', data: admins.bangKian },
+                { type: 'admin', data: admins.bangUcup },
+                { type: 'admin', data: admins.rizky }
+            ],
+            'SILAHTURAHMI CAR KAWAN': [
+                { type: 'owner', data: owners.ayumaiman },
+                { type: 'admin', data: admins.sri },
+                { type: 'admin', data: admins.sintia },
+                { type: 'admin', data: admins.helmi },
+                { type: 'admin', data: admins.bangBen },
+                { type: 'admin', data: admins.alone },
+                { type: 'admin', data: admins.bangKian },
+                { type: 'admin', data: admins.bangUcup },
+                { type: 'admin', data: admins.rizky }
+            ],
+            'Save Owner': [
+                { type: 'owner', data: owners.ayumaiman }
+            ]
+        };
+        // =========================================================================
+        // --- AKHIR DATA KONTAK ---
+        // =========================================================================
+
+        function showContent(contentElement) {
+            const allContents = [initialContent, mainContent, buttonContentDisplay, formContentDisplay];
+            allContents.forEach(content => {
+                content.classList.remove('active', 'show');
+                content.style.display = 'none';
+            });
+            mainContainer.classList.add('active');
+            setTimeout(() => {
+                contentElement.style.display = 'flex';
+                // Reset scroll positions
+                mainContainer.scrollTop = 0;
+                scrollableContent.scrollTop = 0;
+                formScrollableContent.scrollTop = 0;
+                setTimeout(() => {
+                    contentElement.classList.add('active', 'show');
+                }, 50);
+            }, 100);
+        }
+        function cleanPhoneNumber(phone) {
+            let cleaned = phone.replace(/[^\d+]/g, '');
+            // Menghapus kode negara +60 dari nomor Malaysia, karena wa.me akan menanganinya
+            if (cleaned.startsWith('0')) {
+                cleaned = '62' + cleaned.substring(1);
+            }
+            if (cleaned.startsWith('+')) {
+                cleaned = cleaned.substring(1); // Hapus '+' jika ada
+            }
+            if (!cleaned.startsWith('62') && !cleaned.startsWith('60') && cleaned.length > 10) { 
+                cleaned = '62' + cleaned;
+            }
+            return cleaned;
+        }
+        startButton.addEventListener('click', () => {
+            backgroundMusic.play().catch(e => console.error("Gagal memutar musik setelah klik:", e));
+            showContent(mainContent);
+        });
+        document.addEventListener('DOMContentLoaded', () => {
+            showContent(initialContent);
+            // Autoplay attempt, will likely be blocked by browsers
+            backgroundMusic.play().catch(e => {
+                console.log("Autoplay musik diblokir. Musik akan diputar saat tombol 'Mulai Petualangan!' diklik.");
+            });
+        });
+
+        // --- FUNGSI TAMPILAN PERATURAN ---
+        peraturanButton.addEventListener('click', () => {
+            scrollableContent.innerHTML = `
+                <h2 id="content-display-title">📋 PILIH PERATURAN GRUP 📋</h2>
+                <button class="rule-select-button" id="showSckRules">SILAHTURAHMI CAR KAWAN (SCK)</button>
+                <button class="rule-select-button" id="showKuisRules">GRUP KUIS / PEJUANG RUPIAH</button>
+            `;
+            showContent(buttonContentDisplay);
+
+            document.getElementById('showSckRules').addEventListener('click', displaySckRules);
+            document.getElementById('showKuisRules').addEventListener('click', displayKuisRules);
+        });
+
+        function displaySckRules() {
+             scrollableContent.innerHTML = `
+                <h2 id="content-display-title">🔥 ATURAN EKSKLUSIF GRUP SCK (SILAHTURAHMI CAR KAWAN) 🔥</h2>
+                <div class="rule-item">
+                    <span class="rule-item-icon">🚫</span>
+                    <span class="rule-item-text">Jaga sikap dan tutur kata dalam berbicara.</span>
+                </div>
+                <div class="rule-item">
+                    <span class="rule-item-icon">🚫</span>
+                    <span class="rule-item-text">Jangan spam stiker dan voice note (VN) secara berlebihan.</span>
+                </div>
+                <div class="rule-item">
+                    <span class="rule-item-icon">🚫</span>
+                    <span class="rule-item-text">Dilarang kirim video/foto/stiker yang berbau pornografi.</span>
+                </div>
+                <div class="rule-item">
+                    <span class="rule-item-icon">🚫</span>
+                    <span class="rule-item-text">Bercanda tidak boleh membawa-bawa tentang fisik (Body Shaming).</span>
+                </div>
+                <div class="rule-item">
+                    <span class="rule-item-icon">🚫</span>
+                    <span class="rule-item-text">Dilarang keras 'baperan' (terlalu sensitif).</span>
+                </div>
+                <div class="rule-item">
+                    <span class="rule-item-icon">🚫</span>
+                    <span class="rule-item-text">Bercanda diperbolehkan, asalkan tahu batasan.</span>
+                </div>
+                <div class="rule-item">
+                    <span class="rule-item-icon">🚫</span>
+                    <span class="rule-item-text">Gunakan Bahasa Indonesia yang baik dan benar.</span>
+                </div>
+                <div class="rule-item">
+                    <span class="rule-item-icon">🚫</span>
+                    <span class="rule-item-text">Hargai privasi orang lain. Jika ingin 'JP' (Japri) seseorang, harus izin dulu di dalam grup.</span>
+                </div>
+                <div class="rule-item">
+                    <span class="rule-item-icon">🚫</span>
+                    <span class="rule-item-text">Tidak melakukan diskusi yang membahas KRIMINAL, TERORISME, SARA, dan hal lainnya yang bertentangan dengan Hukum maupun setiap Agama.</span>
+                </div>
+                <div class="rule-item">
+                    <span class="rule-item-icon">🚫</span>
+                    <span class="rule-item-text">Jangan suka keluar masuk grup sesuka hati.</span>
+                </div>
+                <div class="rule-item">
+                    <span class="rule-item-icon">🚫</span>
+                    <span class="rule-item-text">Jika ada Anggota yang melakukan hal tidak baik, harap lapor ke admin disertai bukti (screenshot/rekam layar), bukan ke sesama anggota.</span>
+                </div>
+                <div class="rule-item">
+                    <span class="rule-item-icon">🚫</span>
+                    <span class="rule-item-text">Silahkan kirim vidio / foto bisa di batasi sekali liat dan gak juga bebas resiko di tanggung masing-masing.</span>
+                </div>
+                <div class="rule-item">
+                    <span class="rule-item-icon">🚫</span>
+                    <span class="rule-item-text">Dilarang up masalah pribadi dalam grup.</span>
+                </div>
+                <div class="rule-item">
+                    <span class="rule-item-icon">🚫</span>
+                    <span class="rule-item-text">Jangan Spam gambar, vidio dan stiker (akan di kick).</span>
+                </div>
+                <div class="rule-item" style="border-left: 3px solid #00cc66;">
+                    <span class="rule-item-icon" style="color:#00cc66;">✅</span>
+                    <span class="rule-item-text">Untuk telfon Audio di bebaskan. Terima kasih, semoga betah di grup kami.</span>
+                </div>
+                <button class="rule-select-button" style="margin-top:20px; border:none; background-color:#1a1a1a; color:#cccccc;" id="backToRuleSelection">⬅️ Kembali ke Pilihan Peraturan</button>
+            `;
+            document.getElementById('backToRuleSelection').addEventListener('click', peraturanButton.click);
+        }
+
+        function displayKuisRules() {
+            scrollableContent.innerHTML = `
+                <h2 id="content-display-title">👑 ATURAN GRUP PEJUANG RUPIAH/KUIS 💰</h2>
+                <div class="rule-item">
+                    <span class="rule-item-icon">👑</span>
+                    <span class="rule-item-text">Yang baru bergabung **wajib Japri Owner** untuk intro Nama/Askot.</span>
+                </div>
+                <div class="rule-item">
+                    <span class="rule-item-icon">✅</span>
+                    <span class="rule-item-text">Anggota wajib **Save Nomor Owner/Admin**.</span>
+                </div>
+                <div class="rule-item">
+                    <span class="rule-item-icon">🚫</span>
+                    <span class="rule-item-text">**No Bullying**. Jaga sikap dan bahasa.</span>
+                </div>
+                <div class="rule-item">
+                    <span class="rule-item-icon">🚫</span>
+                    <span class="rule-item-text">**Jangan Baperan** (terlalu sensitif).</span>
+                </div>
+                <div class="rule-item">
+                    <span class="rule-item-icon">🚫</span>
+                    <span class="rule-item-text">Dilarang **promosi / berjualan** tanpa sepengetahuan Admin.</span>
+                </div>
+                <div class="rule-item">
+                    <span class="rule-item-icon">🚫</span>
+                    <span class="rule-item-text">Dilarang **sebar link grup lain** tanpa izin dari Admin dan Owner.</span>
+                </div>
+                <div class="rule-item">
+                    <span class="rule-item-icon">🚫</span>
+                    <span class="rule-item-text">Tidak boleh menggunakan **bot** di GC ini tanpa seizin Admin dan Owner.</span>
+                </div>
+                <div class="rule-item">
+                    <span class="rule-item-icon">🚫</span>
+                    <span class="rule-item-text">Jangan **spam stiker** secara berlebihan.</span>
+                </div>
+                <div class="rule-item">
+                    <span class="rule-item-icon">⭐</span>
+                    <span class="rule-item-text">**Jawab soal** dengan baik dan benar.</span>
+                </div>
+                <div class="rule-item">
+                    <span class="rule-item-icon">⚠️</span>
+                    <span class="rule-item-text">Jika ada yang **meminjam uang** secara pribadi, itu **bukan tanggung jawab** Owner/Admin.</span>
+                </div>
+                <div class="rule-item">
+                    <span class="rule-item-icon">💰</span>
+                    <span class="rule-item-text">Anggota **diperbolehkan** membuat kuis dan bagi dana kaget dalam grup ini.</span>
+                </div>
+                <div class="rule-item">
+                    <span class="rule-item-icon">📢</span>
+                    <span class="rule-item-text">Anggota yang punya saluran (channel) **diperbolehkan promosi**.</span>
+                </div>
+                <div class="rule-item">
+                    <span class="rule-item-icon">🚫</span>
+                    <span class="rule-item-text">Jangan **keluar masuk grup** seenaknya.</span>
+                </div>
+                <div class="rule-item">
+                    <span class="rule-item-icon">🎤</span>
+                    <span class="rule-item-text">**Diperbolehkan audio** (voice chat) dalam GC ini.</span>
+                </div>
+                <p class="thank-you-message" style="color: #cccccc; font-size:1em;">Catatan: Grup Pejuang Rupiah sebelumnya kena *banned* (03-12-2024).</p>
+                <p class="thank-you-message">Terima kasih, semoga betah di grup kami! 💸🤑❤️🔥</p>
+                <button class="rule-select-button" style="margin-top:20px; border:none; background-color:#1a1a1a; color:#cccccc;" id="backToRuleSelection">⬅️ Kembali ke Pilihan Peraturan</button>
+            `;
+            document.getElementById('backToRuleSelection').addEventListener('click', peraturanButton.click);
+        }
+
+        // --- FUNGSI GRUP (TETAP SAMA) ---
+        kumpulanButton.addEventListener('click', () => {
+            scrollableContent.innerHTML = `
+                <h2 id="content-display-title">👑 KUMPULAN GRUP EKSKLUSIF 👑</h2>
+                <div class="rule-item group-item-button" id="grupKuisButton">
+                    <span class="rule-item-icon">🎮</span>
+                    <span class="rule-item-text">PEJUANG RUPIAH/KUIS</span>
+                </div>
+                <div class="rule-item group-item-button" id="silahturahmiButton">
+                    <span class="rule-item-icon">🫂</span>
+                    <span class="rule-item-text">SILAHTURAHMI CARI KAWAN</span>
+                </div>
+                <p style="font-size:0.9em; color:#888; margin-top:30px; font-style: italic;">Patuhi peraturan grup yang berlaku jika Anda ingin bergabung, dan hindari tindakan negatif.</p>
+            `;
+            showContent(buttonContentDisplay);
+            document.getElementById('grupKuisButton').addEventListener('click', () => {
+                displayContactsForGroup("PEJUANG RUPIAH/KUIS", 'kuis');
+            });
+            document.getElementById('silahturahmiButton').addEventListener('click', () => {
+                displayContactsForGroup("SILAHTURAHMI CAR KAWAN", 'silaturahmi');
+            });
+        });
+        saveOwnerButton.addEventListener('click', () => {
+            displayContactsForGroup("Save Owner", 'saveOwner');
+        });
+        function displayContactsForGroup(groupName, formType) {
+            let contactHtml = '';
+            let groupLogoUrl = '';
+            // Determine group logo URL based on group name
+            if (groupName === "PEJUANG RUPIAH/KUIS") {
+                groupLogoUrl = "https://files.catbox.moe/4r4x83.jpg";
+            } 
+            else if (groupName === "SILAHTURAHMI CAR KAWAN") {
+                groupLogoUrl = "https://files.catbox.moe/kcsv6t.jpg";
+            } 
+            else if (groupName === "Save Owner") {
+                groupLogoUrl = "https://g.top4top.io/p_34597mmwe0.jpg"; // General logo for Save Owner
+            }
+            // Add group logo and name
+            contactHtml += `
+                <div class="group-logo-container">
+                    <img src="${groupLogoUrl}" alt="${groupName} Logo" class="group-logo">
+                    <h3 class="group-name">${groupName}</h3>
+                </div>
+            `;
+            const contactsToDisplay = groupContacts[groupName];
+            let ownersHtml = '';
+            let adminsHtml = '';
+            contactsToDisplay.forEach(contact => {
+                const role = contact.type.charAt(0).toUpperCase() + contact.type.slice(1);
+                // Menambahkan nomor WA untuk debugging
+                const contactInfo = contact.data.name + (contact.type === 'owner' ? ' (Owner)' : ' (Admin)');
+                
+                if (contact.type === 'owner') {
+                    ownersHtml += `
+                        <div class="contact-name-item"
+                             data-contact-phone="${contact.data.phone}"
+                             data-contact-name="${contact.data.name}"
+                             data-group-name="${groupName}"
+                             data-form-type="${formType}">
+                            <span>${contactInfo}</span>
+                        </div>
+                    `;
+                } else if (contact.type === 'admin') {
+                    adminsHtml += `
+                        <div class="contact-name-item"
+                             data-contact-phone="${contact.data.phone}"
+                             data-contact-name="${contact.data.name}"
+                             data-group-name="${groupName}"
+                             data-form-type="${formType}">
+                            <span>${contactInfo}</span>
+                        </div>
+                    `;
+                }
+            });
+            if (ownersHtml) {
+                contactHtml += `<h3 style="color:#ffcc00; margin-top:25px;">OWNER:</h3>` + ownersHtml;
+            }
+            if (adminsHtml) {
+                contactHtml += `<h3 style="color:#cccccc; margin-top:25px;">ADMIN:</h3>` + adminsHtml;
+            }
+            scrollableContent.innerHTML = contactHtml;
+            showContent(buttonContentDisplay);
+            attachContactClickListeners();
+        }
+        function showFormInput() {
+            const contactName = currentTargetContact.name;
+            const groupName = currentTargetContact.groupName;
+            const formType = currentTargetContact.formType;
+            // Find the specific contact (owner or admin) to get their logo if available
+            let contactLogo = '';
+            // Check in owners first
+            for (const key in owners) {
+                if (owners[key].name === contactName && owners[key].logo) {
+                    contactLogo = owners[key].logo;
+                    break;
+                }
+            }
+            // If not found in owners, check in admins (though admins don't currently have logos in your data)
+            if (!contactLogo) {
+                for (const key in admins) {
+                    if (admins[key].name === contactName && admins[key].logo) { // Check if admins[key].logo exists
+                        contactLogo = admins[key].logo;
+                        break;
+                    }
+                }
+            }
+            let finalPurposeMessage = '';
+            let formHtml = `<h2 id="form-display-title">Formulir Pendaftaran Grup ${groupName}</h2>`;
+            if (contactLogo) {
+                formHtml += `
+                    <div class="group-logo-container">
+                        <img src="${contactLogo}" alt="${contactName} Logo" class="group-logo">
+                        <h3 class="group-name">${contactName}</h3>
+                    </div>
+                `;
+            }
+            formHtml += `<div class="form-section">`;
+            
+            // Teks instruksi form (disesuaikan agar lebih formal)
+            formHtml += `
+                <p style="font-size:1em; color:#e0e0e0; text-align:center; margin-bottom:15px; font-style:normal;">
+                    Yth. ${contactName}! Mohon lengkapi data diri Anda untuk proses bergabung.
+                </p>
+            `;
+
+            // Form Fields
+            formHtml += `
+                <label for="nama">Nama Lengkap:</label>
+                <input type="text" id="nama" placeholder="Masukkan nama Anda..." required>
+                <label for="umur">Umur:</label>
+                <input type="number" id="umur" placeholder="Masukkan umur Anda..." min="1" required>
+                <label for="kota">Asal Kota:</label>
+                <input type="text" id="kota" placeholder="Contoh: Jakarta" required>
+                <label for="status">Status:</label>
+                <input type="text" id="status" placeholder="Contoh: Pelajar/Mahasiswa/Karyawan" required>
+                <label for="hobi">Hobi:</label>
+                <input type="text" id="hobi" placeholder="Contoh: Membaca/Nonton Film" required>
+            `;
+            
+            if (formType === 'silaturahmi') {
+                finalPurposeMessage = "Saya ingin bergabung dengan grup SILAHTURAHMI CAR KAWAN.";
+            } else if (formType === 'kuis' || formType === 'saveOwner') {
+                formHtml += `
+                    <label for="tujuan">Tujuan Bergabung Grup:</label>
+                    <input type="text" id="tujuan" placeholder="Contoh: Mencari teman/Mengikuti kuis" required>
+                `;
+            }
+
+            formHtml += `<button class="form-submit-button" id="submitFormButton">Kirim Data & Dapatkan Link Grup</button>`;
+            formHtml += `</div>`;
+            
+            formScrollableContent.innerHTML = formHtml;
+            showContent(formContentDisplay);
+            document.getElementById('submitFormButton').addEventListener('click', () => {
+                const nama = document.getElementById('nama').value;
+                const umur = document.getElementById('umur').value;
+                const kota = document.getElementById('kota').value;
+                const status = document.getElementById('status').value;
+                const hobi = document.getElementById('hobi').value;
+                let tujuanValue = "";
+                let purposeForWhatsApp = finalPurposeMessage;
+
+                if (formType === 'kuis' || formType === 'saveOwner') {
+                    tujuanValue = document.getElementById('tujuan').value;
+                    if (!tujuanValue || !nama || !umur || !kota || !status || !hobi) {
+                        alert('Mohon lengkapi semua kolom formulir yang wajib diisi!');
+                        return;
+                    }
+                    purposeForWhatsApp = `Tujuan: ${tujuanValue}`; 
+                } else if (!nama || !umur || !kota || !status || !hobi) {
+                     alert('Mohon lengkapi semua kolom formulir yang wajib diisi!');
+                     return;
+                }
+                
+                let message = `Yth. ${currentTargetContact.name}, saya ingin mengajukan permohonan bergabung ke grup ${currentTargetContact.groupName}.%0A%0A` +
+                                `Data Diri:%0A` +
+                                `Nama: ${nama}%0A` +
+                                `Umur: ${umur} tahun%0A` +
+                                `Asal Kota: ${kota}%0A` +
+                                `Status: ${status}%0A` +
+                                `Hobi: ${hobi}%0A`;
+                
+                if (formType === 'silaturahmi' && finalPurposeMessage) {
+                    message += finalPurposeMessage + `%0A%0A`;
+                } else if (purposeForWhatsApp) {
+                    message += purposeForWhatsApp + `%0A%0A`;
+                } else {
+                    message += `%0A`;
+                }
+
+                message += `Mohon kiranya dapat dibantu untuk pemberian link grup. Terima kasih atas waktunya.`;
+                const whatsappUrl = `https://wa.me/${cleanPhoneNumber(currentTargetContact.phone)}?text=${message}`;
+                window.open(whatsappUrl, '_blank');
+            });
+        }
+        function attachContactClickListeners() {
+            document.querySelectorAll('.contact-name-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    currentTargetContact.name = this.dataset.contactName;
+                    currentTargetContact.phone = this.dataset.contactPhone;
+                    currentTargetContact.groupName = this.dataset.groupName;
+                    currentTargetContact.formType = this.dataset.formType;
+                    currentTargetContact.purpose = "";
+                    showFormInput();
+                });
+            });
+        }
+        backButton.addEventListener('click', () => {
+            // Ketika tombol 'X' ditekan dari tampilan detail aturan/kontak, kembali ke menu utama.
+            // Pengecekan tambahan: Jika sedang di tampilan aturan detail, kembali ke pilihan peraturan.
+            if (scrollableContent.innerHTML.includes('ATURAN EKSKLUSIF GRUP SCK') || scrollableContent.innerHTML.includes('ATURAN GRUP PEJUANG RUPIAH')) {
+                 peraturanButton.click(); // Kembali ke pilihan 2 tombol aturan
+            } else if (scrollableContent.innerHTML.includes('KUMPULAN GRUP EKSKLUSIF')) {
+                 showContent(mainContent); // Kembali ke menu utama (dari Kumpulan Grup)
+            } else if (scrollableContent.innerHTML.includes('PILIH PERATURAN GRUP')) {
+                 showContent(mainContent); // Kembali ke menu utama (dari Pilihan Aturan)
+            } else {
+                 showContent(mainContent); // Default
+            }
+        });
+        backToContactsButton.addEventListener('click', () => {
+            if (currentTargetContact.groupName) {
+                displayContactsForGroup(currentTargetContact.groupName, currentTargetContact.formType);
+            } else {
+                showContent(mainContent);
+            }
+        });
+    </script>
+</body>
+</html>
