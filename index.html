@@ -3,9 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Lapisan Konten - Tukar Posisi Konten</title>
+    <title>KAROKE ONLINE TANPA IKLAN</title>
+    
+    <meta property="og:title" content="AYU MAIMAN: Karaoke & Gabung Grup!" />
+    <meta property="og:description" content="Yuk, karokean seru di sini! Cek juga kontak owner/admin dan isi formulir untuk gabung Grup Pejuang Kuis/Rupiah atau Silahturahmi Cari Kawan. Jangan lupa baca peraturannya ya!" />
+    <meta property="og:image" content="https://autoresbot.com/tmp_files/5c3a1f30-013c-4e5a-8170-fb8c9a97dc93.jpg" />
+    <meta property="og:url" content="[GANTI DENGAN URL ASLI WEBSITE ANDA]" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image:width" content="600" />
+    <meta property="og:image:height" content="315" />
     <style>
-        /* --- CSS Tambahan untuk Layar Pembuka dan Musik --- */
+        /* [SEMUA CSS ASLI ANDA DI SINI] */
+        /* --- CSS Tambahan untuk Layar Pembuka --- */
         #welcomeOverlay {
             position: fixed;
             top: 0;
@@ -41,14 +50,16 @@
             transform: scale(1.05);
         }
         
-        #backgroundAudio {
-            display: none;
+        /* CSS Dasar */
+        body { 
+            margin: 0; 
+            font-family: Arial, sans-serif; 
+            height: 100vh; 
+            overflow: hidden; 
+            background-color: #f0f0f0;
         }
 
-        /* CSS Dasar */
-        body { margin: 0; font-family: Arial, sans-serif; height: 100vh; overflow: hidden; }
-
-        /* Gaya Navbar (Fixed) - Z-INDEX DITINGKATKAN */
+        /* Gaya Navbar (Fixed) */
         .navbar { 
             background-color: #333; 
             padding: 10px 20px; 
@@ -60,31 +71,21 @@
             top: 0; 
             left: 0; 
             width: 100%; 
-            z-index: 4500; /* Z-INDEX DITINGKATKAN */
+            z-index: 4500; 
             box-sizing: border-box; 
             height: 55px; 
         }
         .navbar-brand { display: flex; align-items: center; font-size: 1.4em; text-decoration: none; color: white; cursor: pointer; }
-.logo-placeholder { 
-    /* Ukuran Logo */
-    width: 35px; 
-    height: 35px; 
-    
-    /* Mengubah Latar Belakang dari Warna menjadi Gambar */
-    background-image: url('https://autoresbot.com/tmp_files/f700b427-32a5-4d7c-9480-17b2b490898c.jpg');
-    background-size: cover; /* Memastikan gambar mengisi seluruh area */
-    background-position: center; /* Memusatkan gambar */
-    
-    /* Bentuk Lingkaran */
-    border-radius: 50%; 
-    
-    /* Jarak di sebelah kanan */
-    margin-right: 8px; 
-    
-    /* Agar elemen terlihat (penting jika Anda tidak menggunakan tag <img>) */
-    display: inline-block; 
-}
-
+        .logo-placeholder { 
+            width: 35px; 
+            height: 35px; 
+            background-image: url('https://autoresbot.com/tmp_files/f700b427-32a5-4d7c-9480-17b2b490898c.jpg');
+            background-size: cover; 
+            background-position: center; 
+            border-radius: 50%; 
+            margin-right: 8px; 
+            display: inline-block; 
+        }
         .brand-text { font-weight: 600; }
         .menu-button { background: none; color: white; border: none; padding: 8px 12px; cursor: pointer; border-radius: 5px; font-size: 1.4em; }
         .menu-content { 
@@ -95,12 +96,13 @@
             background-color: #444; 
             min-width: 220px; 
             box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.4); 
-            z-index: 4501; /* Z-INDEX DITINGKATKAN */
+            z-index: 4501; 
             border-radius: 5px; 
             overflow: hidden; 
         } 
         .menu-content.show { display: block; }
         .menu-content a { color: white; padding: 10px 14px; text-decoration: none; display: flex; align-items: center; transition: background-color 0.3s; }
+        .menu-content a:hover { background-color: #555; }
 
         /* Gaya Teks Berjalan (Navbar Kedua) */
         .running-text-bar { position: fixed; top: 55px; left: 0; width: 100%; height: 25px; background-color: #007bff; color: white; line-height: 25px; overflow: hidden; z-index: 2000; font-size: 0.8em; padding: 0 10px; }
@@ -116,23 +118,23 @@
             height: calc(100% - 80px); 
             display: flex; 
             flex-direction: column; 
-            justify-content: center;
+            justify-content: flex-start; 
             align-items: center; 
             text-align: center; 
             color: white;
-            padding: 0 10px; 
+            padding: 10px; 
             background-size: cover; 
             background-repeat: no-repeat;
             background-position: center; 
             z-index: 1; 
-            overflow-y: hidden;
+            overflow-y: auto; 
         }
 
         #home-page { 
             background-color: #222; 
             z-index: 1; 
-            padding-top: 5px; 
-            padding-bottom: 5px; 
+            padding-top: 15px; 
+            justify-content: flex-start; 
         }
 
         .rules-container { 
@@ -143,10 +145,9 @@
             border-radius: 8px; 
             font-size: 0.9em; 
             line-height: 1.5; 
-            margin-top: 20px;
+            margin-top: 10px;
             text-align: left;
-            overflow-y: auto; 
-            max-height: 70vh; 
+            flex-shrink: 0; 
         }
 
         .content-layer { 
@@ -154,19 +155,15 @@
             opacity: 0; 
             pointer-events: none;
             transition: opacity 0.5s ease; 
-            overflow-y: auto; 
             padding-top: 20px;
             padding-bottom: 20px;
-            display: block; 
-            flex-direction: column;
-            align-items: center;
+            display: flex; 
         }
         
         .content-layer.active { 
             opacity: 1; 
             pointer-events: auto;
-            z-index: 4000; /* Z-index di bawah Navbar */
-            display: flex; 
+            z-index: 4000; 
         }
         
         #konten1 { 
@@ -174,171 +171,327 @@
             background-color: #0d47a1; 
         } 
         #konten2 { 
-            background-image: url('https://autoresbot.com/tmp_files/c2a8f401-0266-49ea-8300-3f7ce8f804f5.jpg'); 
+            background-image: url('https://autoresbot.com/tmp_files/5a97adf8-5d66-4895-bd03-a13bc9eab930.jpg'); 
             background-color: #2a2a2a; 
         } 
         
-        .content-layer h2 { font-size: 2.5em; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); }
-        
-        .konten-body { 
-            display: none; 
-            width: 100%; 
-            align-items: center; 
-            flex-direction: column; 
+        /* --- YOUTUBE PLAYER CONTAINER --- */
+        .youtube-input-container {
+            max-width: 700px;
+            width: 95%;
+            margin: 20px auto 10px;
+            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            border-bottom: 5px solid #dc3545; 
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
             text-align: center;
-            position: relative; 
-            z-index: 100;
-        }
-        .konten-body.show { display: flex; }
-        
-        .buka-button { 
-            background-color: #dc3545; 
-            color: white; 
-            border: none; 
-            padding: 12px 25px; 
-            border-radius: 5px; 
-            cursor: pointer; 
-            margin-top: 15px; 
-            font-size: 1.2em; 
-            position: relative; 
-            z-index: 150; 
-        }
-        
-        .info-box { 
-            background-color: rgba(0, 0, 0, 0.7); 
-            padding: 15px; 
-            border-radius: 8px; 
-            max-width: 90%; 
-            margin: 10px auto; 
-            font-size: 1em; 
-            line-height: 1.5; 
-            position: relative; 
-            z-index: 10; 
-        }
-        
-        /* --- GAYA MODAL FORMULIR BARU --- */
-        .modal-overlay {
-            display: none; /* Default tersembunyi */
-            position: fixed;
-            z-index: 5000; /* Z-index tertinggi untuk overlay */
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.8); /* Background gelap transparan */
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
+            flex-shrink: 0;
+            color: #fff;
         }
 
-        .custom-form-modal {
-            background-color: rgba(255, 255, 255, 0.98);
+        .youtube-input-container input[type="text"] {
+            width: 80%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px 0 0 5px;
+            box-sizing: border-box;
+            font-size: 1em;
+            outline: none;
+            background-color: #f9f9f9;
             color: #333;
-            padding: 20px;
-            border-radius: 10px;
-            max-width: 400px;
-            width: 90%;
-            text-align: left;
-            position: relative; /* Penting untuk tombol close */
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-            animation: fadeIn 0.3s;
+            float: left;
+        }
+
+        .youtube-input-container button {
+            width: 20%;
+            padding: 10px;
+            border: none;
+            background-color: #dc3545;
+            color: white;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s;
+            float: left;
+        }
+
+        .youtube-input-container button:hover:not(:disabled) {
+            background-color: #c82333;
+        }
+        /* Style saat tombol disabled */
+        .youtube-input-container button:disabled {
+            background-color: #6c757d; 
+            cursor: not-allowed;
+        }
+
+        .input-group {
+            display: flex;
+            margin-bottom: 15px;
+        }
+
+        #video-output-container {
+            margin-top: 20px;
+            max-width: 700px;
+            width: 95%;
+            aspect-ratio: 16 / 9; 
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        #video-player {
+            width: 100%;
+            height: 100%;
+            display: none; 
+            border: none;
+            transition: opacity 0.5s;
+        }
+
+        .message-box {
+            color: #fff;
+            padding: 15px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 5px;
+            animation: fadeIn 0.5s;
+        }
+
+        /* Loading Spinner Animation */
+        .loading-video {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #dc3545;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            display: none;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         @keyframes fadeIn {
-            from {opacity: 0; transform: scale(0.9);}
-            to {opacity: 1; transform: scale(1);}
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
-        .close-button {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
+        /* --- ZAEN PLAY LIVE STREAMING INFO --- */
+        #channel-live-info {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            display: flex;
+            align-items: center;
+            z-index: 1000;
+            user-select: none;
+            opacity: 0; /* Tersembunyi secara default */
+            transition: opacity 0.5s ease; 
+        }
+
+        .live-tag {
+            background-color: #ff0000; 
+            color: white;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 0.7em;
             font-weight: bold;
-            line-height: 20px;
-            cursor: pointer;
-            transition: color 0.3s;
-        }
-
-        .close-button:hover,
-        .close-button:focus {
-            color: #dc3545;
-            text-decoration: none;
-        }
-
-        /* Tombol untuk MEMBUKA Modal */
-        .form-button { 
-            background-color: #28a745; 
-            color: white; 
-            border: none; 
-            padding: 10px 20px; 
-            border-radius: 5px; 
-            cursor: pointer; 
-            margin-top: 15px; 
-            font-size: 1.1em; 
-            position: relative; 
-            z-index: 150; 
+            margin-right: 5px;
+            animation: pulse 1.5s infinite; /* Efek berdetak */
         }
         
-        /* Input dan Select di dalam formulir */
-        .custom-form-modal input, 
-        .custom-form-modal select {
-            width: 100%;
-            padding: 8px;
-            margin: 5px 0 15px 0;
-            display: inline-block;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-            position: relative;
-            z-index: 5010; /* Z-index tinggi untuk interaktivitas */
+        .channel-name {
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 0.8em;
+            font-weight: bold;
         }
+
+        /* Keyframes untuk animasi pulse (berdetak) */
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 0, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0); }
+        }
+        
+        /* Gaya untuk Konten Grup */
+        .konten-body {
+            max-width: 700px;
+            width: 95%;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.95);
+            color: #333;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            text-align: left;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            display: none; 
+        }
+        
+        .konten-body.show {
+            opacity: 1;
+            transform: translateY(0);
+            display: block; 
+        }
+        
+        .buka-button {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-size: 1.1em;
+            transition: background-color 0.3s;
+        }
+
+        .buka-button:hover {
+            background-color: #218838;
+        }
+        
+        .info-box {
+            background-color: #e9ecef;
+            border-left: 5px solid #007bff;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+        
+        .form-button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #ffc107;
+            color: #333;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: background-color 0.3s;
+        }
+        
+        .form-button:hover {
+            background-color: #e0a800;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: none; 
+            justify-content: center;
+            align-items: center;
+            z-index: 5500;
+        }
+
+        .custom-form-modal {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 400px;
+            position: relative;
+            animation: slideUp 0.3s ease-out;
+            color: #333;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .custom-form-modal input[type="text"], 
+        .custom-form-modal select, 
+        .custom-form-modal button[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
         .custom-form-modal button[type="submit"] {
             background-color: #007bff;
             color: white;
             border: none;
-            padding: 10px 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .custom-form-modal button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        .close-button {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #aaa;
+        }
+
+        /* Contact List Styles */
+        #contactItemsKuis, #contactItemsSilaturahmi {
+            margin-top: 15px;
+            border-top: 2px solid #ccc;
+            padding-top: 10px;
+        }
+
+        .contact-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px dashed #eee;
+        }
+
+        .contact-item button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 15px;
             border-radius: 5px;
             cursor: pointer;
-            width: 100%;
-            font-size: 1em;
-            margin-top: 10px;
+            transition: background-color 0.3s;
         }
-
-
-        #contactListKuis, #contactListSilaturahmi { 
-            display: none; 
-            margin-top: 20px; 
-            max-width: 400px; 
-            width: 90%; 
-            background-color: rgba(255, 255, 255, 0.95); 
-            color: #333; 
-            padding: 20px; 
-            border-radius: 10px; 
-            text-align: left; 
-            position: relative; 
-            z-index: 160; 
+        
+        .contact-item button:hover {
+            background-color: #0056b3;
         }
-
-        .contact-group h4 { color: #dc3545; margin: 10px 0 5px 0; }
-        .contact-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px dotted #ccc; }
-        .contact-item button { background-color: #28a745; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.9em; }
     </style>
 </head>
 <body>
 
     <div id="welcomeOverlay">
-        <h1 style="margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">Selamat Datang!</h1>
-        <p style="margin-bottom: 30px; font-size: 1.1em; max-width: 80%; text-align: center;">Tekan tombol di bawah untuk masuk ke website dan memutar musik latar.</p>
+        <h1 style="margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">Selamat Datang di AYU MAIMAN!</h1>
+        <p style="margin-bottom: 30px; font-size: 1.1em; max-width: 80%; text-align: center;">
+            Ayo mulai **Karaoke** dengan mencari lagu di bawah, atau cek menu di kanan atas untuk **Gabung Grup Pejuang Kuis/Rupiah** dan **Silahturahmi Cari Kawan**!
+        </p>
         <button id="openButton" onclick="openWebsite()">
             Buka Website
         </button>
     </div>
-
-    <audio id="backgroundAudio" loop>
-        <source src="https://d.uguu.se/vfgjfbTu.mp3" type="audio/mp3">
-        Browser Anda tidak mendukung elemen audio.
-    </audio>
 
     <nav class="navbar">
         <a class="navbar-brand" onclick="hideAllContentLayers()">
@@ -371,9 +524,24 @@
     </div>
 
     <section id="home-page">
-        <h2>Selamat Datang!</h2>
-        <p>pilih grup pilihan mu di menu kanan atas</p>
-        
+       <div id="video-output-container">
+            <div id="channel-live-info">
+                <span class="live-tag">LIVE</span>
+                <span class="channel-name">ZAEN PLAY</span>
+            </div>
+            <div class="loading-video" id="loading-video"></div>
+            <p class="message-box" id="video-message">Hi 👋, mau nyanyi apa?</p>
+            <video id="video-player" controls autoplay loop playsinline>
+                </video>
+        </div>
+        <div class="youtube-input-container">
+            <div class="input-group">
+                <input type="text" id="youtubeUrl" placeholder="ketik judul lagu disini" required>
+                <button id="watchButton" onclick="fetchYouTubeVideo()">KAROKE</button>
+            </div>
+        </div>
+
+       
         <div class="rules-container">
             <h2>Peraturan Grup: 💸🍂🌸</h2>
             <p>
@@ -474,12 +642,11 @@
 
 
     <script>
-        // Data Kontak Konten 1 (Kuis)
+        // Data Kontak (tetap sama)
         const CONTACTS_KUIS = [
             { role: "Owner", name: "Ayumaiman", number: "+62 858-2238-2486" },
             { role: "Admin", name: "Sri Wahyuni", number: "+62 851-3670-4543" },
             { role: "Admin", name: "Sintia Ramadhaniy", number: "+62 857-3962-1119" },
-            // Nomor Helmi Safitri diubah ke format internasional yang konsisten
             { role: "Admin", name: "Helmi Safitri", number: "+62 882-2662-8207" },
             { role: "Admin", name: "Bang Ben", number: "+62 857-3962-1119" },
             { role: "Admin", name: "Bang Aditya", number: "+60 11-3781 2385" },
@@ -487,33 +654,117 @@
             { role: "Admin", name: "Bang Ucup", number: "+62 823-1095-0351" }
         ];
 
-        // Data Kontak Konten 2 (Silahturahmi)
         const CONTACTS_SILATURAHMI = [
             { role: "Owner", name: "Ayumaiman", number: "+62 858-2238-2486" },
             { role: "Admin", name: "Sri Wahyuni", number: "+62 851-3670-4543" },
             { role: "Admin", name: "Sintia Ramadhaniy", number: "+62 857-3962-1119" },
-            // Nomor Helmi Safitri diubah ke format internasional yang konsisten
             { role: "Admin", name: "Helmi Safitri", number: "+62 882-2662-8207" },
             { role: "Admin", name: "Bang Ben", number: "+62 857-3962-1119" },
             { role: "Admin", name: "allone", number: "+62 819-1800-5934" },
             { role: "Admin", name: "Bang Ucup", number: "+62 823-1095-0351" }
         ];
         
-        // FUNGSI: Menutup Overlay dan Memutar Musik
+        // FUNGSI UTAMA: Fetch dan Putar Video YouTube
+        async function fetchYouTubeVideo() {
+            const API_URL = 'https://api.deline.my.id/downloader/ytplay';
+            const youtubeUrlInput = document.getElementById('youtubeUrl');
+            const videoPlayer = document.getElementById('video-player');
+            const loadingSpinner = document.getElementById('loading-video');
+            const messageBox = document.getElementById('video-message');
+            const watchButton = document.getElementById('watchButton');
+            const liveInfo = document.getElementById('channel-live-info'); 
+            
+            const input = youtubeUrlInput.value.trim();
+
+            if (!input) {
+                alert('Mohon masukkan Judul atau kata kunci video!');
+                return;
+            }
+
+            // --- Logika Penambahan Kata Kunci Tersembunyi ---
+            // Kata kunci yang akan ditambahkan ke kueri API tanpa muncul di input pengguna.
+            const hiddenKeyword = " karaoke request"; 
+            const finalQuery = input + hiddenKeyword; // Gabungkan input pengguna dengan kata kunci tersembunyi
+            // ----------------------------------------------------
+
+            // --- 1. Mulai Cooldown Tombol Tonton (10 Detik) ---
+            watchButton.disabled = true;
+            watchButton.textContent = 'Menunggu (10s)';
+            let countdown = 10;
+            const interval = setInterval(() => {
+                countdown--;
+                if (countdown >= 0) {
+                    watchButton.textContent = `Menunggu (${countdown}s)`;
+                } else {
+                    clearInterval(interval);
+                    watchButton.disabled = false;
+                    watchButton.textContent = 'KAROKE';
+                }
+            }, 1000);
+            // ----------------------------------------------------
+
+            // 2. Tampilkan loading dan sembunyikan player/pesan
+            messageBox.style.display = 'none';
+            videoPlayer.style.display = 'none';
+            liveInfo.style.opacity = '0'; // Sembunyikan ZAEN PLAY
+            loadingSpinner.style.display = 'block';
+            videoPlayer.removeAttribute('src'); 
+
+            try {
+                // Gunakan finalQuery (dengan " karaoke request") untuk memanggil API
+                const response = await fetch(`${API_URL}?q=${encodeURIComponent(finalQuery)}`);
+                const result = await response.json();
+
+                // 3. Sembunyikan loading
+                loadingSpinner.style.display = 'none';
+
+                // --- Logic yang disesuaikan dengan response JSON Anda (result.result.download) ---
+                if (result.status && result.result && result.result.download) {
+                    const videoLink = result.result.download;
+                    const videoTitle = result.result.title || 'Video YouTube'; 
+                    
+                    // Berhasil: Set sumber video dan tampilkan player
+                    videoPlayer.src = videoLink; 
+                    videoPlayer.style.display = 'block'; 
+                    messageBox.style.display = 'none'; 
+
+                    // --- MUNCULKAN ZAEN PLAY SETELAH 7 DETIK ---
+                    setTimeout(() => {
+                        liveInfo.style.opacity = '1'; 
+                    }, 7000);
+                    // -------------------------------------------
+
+                    // Coba putar otomatis
+                    videoPlayer.play().catch(error => {
+                        console.error("Autoplay gagal, mungkin ada batasan browser.", error);
+                        messageBox.textContent = `Video "${videoTitle}" dimuat! Klik tombol play untuk memutar. (Autoplay diblokir browser)`;
+                        messageBox.style.display = 'block';
+                        videoPlayer.style.display = 'block';
+                    });
+
+                } else {
+                    // Gagal: Tampilkan pesan error
+                    const errorMessage = result.message || 'Gagal memproses. Coba masukkan Judul/kata kunci yang berbeda.';
+                    messageBox.textContent = errorMessage;
+                    messageBox.style.display = 'block';
+                }
+
+            } catch (error) {
+                console.error('Error fetching YouTube video:', error);
+                loadingSpinner.style.display = 'none';
+                messageBox.textContent = 'Terjadi kesalahan jaringan atau server API.';
+                messageBox.style.display = 'block';
+            }
+        }
+        
+        // FUNGSI LAIN (Navigasi dan Formulir) - TIDAK BERUBAH
         function openWebsite() {
             const overlay = document.getElementById('welcomeOverlay');
-            const audio = document.getElementById('backgroundAudio');
-
             overlay.style.opacity = '0';
             setTimeout(() => {
                 overlay.style.display = 'none';
             }, 1000); 
-
-            audio.play().catch(error => {
-                console.log("Autoplay gagal, mungkin ada batasan browser: ", error);
-            });
         }
-
 
         function toggleMenu() {
             document.getElementById("myMenu").classList.toggle("show");
@@ -526,13 +777,13 @@
             });
             document.getElementById("myMenu").classList.remove('show');
             
-            // Sembunyikan daftar kontak saat kembali ke Home
             document.getElementById('contactListKuis').style.display = 'none';
             document.getElementById('contactListSilaturahmi').style.display = 'none';
             
-            // Tutup semua modal jika ada yang terbuka
             closeModal('modalKuis');
             closeModal('modalSilahturahmi');
+            
+            document.getElementById('home-page').scrollTop = 0;
         }
         
         function showContentLayer(contentId) {
@@ -543,7 +794,6 @@
                  activeLayer.classList.add('active');
             }
             
-            // RESET TAMPILAN KONTEN 1 dan 2
             document.getElementById('bukaButton1').style.display = 'block';
             document.getElementById('konten1Body').classList.remove('show');
             document.getElementById('bukaButton2').style.display = 'block';
@@ -560,7 +810,6 @@
             body.classList.add('show');
             button.style.display = 'none';
             
-            // Sembunyikan daftar kontak jika ada
             if (contentId === 'konten1') {
                 document.getElementById('contactListKuis').style.display = 'none';
             } else if (contentId === 'konten2') {
@@ -570,15 +819,12 @@
             body.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
         
-        // FUNGSI BARU: Buka Modal
         function openModal(modalId) {
             document.getElementById(modalId).style.display = 'flex';
-            // Sembunyikan daftar kontak
             document.getElementById('contactListKuis').style.display = 'none';
             document.getElementById('contactListSilaturahmi').style.display = 'none';
         }
 
-        // FUNGSI BARU: Tutup Modal
         function closeModal(modalId) {
             document.getElementById(modalId).style.display = 'none';
         }
@@ -599,10 +845,6 @@
             window.open(waLink, '_blank');
         }
 
-        /* * FUNGSI DISPLAY CONTACTS YANG DIPERBAIKI
-         * Menggunakan addEventListener dan pembuatan elemen DOM 
-         * untuk menghindari masalah parsing string kutipan di atribut 'onclick'
-         */
         function displayContacts(formId, data) {
             let contacts, containerId, listDivId, messageBody;
             
@@ -610,14 +852,12 @@
                 contacts = CONTACTS_KUIS;
                 containerId = 'contactItemsKuis';
                 listDivId = 'contactListKuis';
-                // Teks pesan WA untuk Kuis
                 messageBody = `Halo kak, saya *${data.nama}* dari *${data.kota}* ingin gabung ke grup Pejuang Kuis/Rupiah. Mohon direspon ya kak. Terima kasih!`;
             
             } else if (formId === 'formSilahturahmi') {
                 contacts = CONTACTS_SILATURAHMI;
                 containerId = 'contactItemsSilaturahmi';
                 listDivId = 'contactListSilaturahmi';
-                // Teks pesan WA untuk Silahturahmi
                 messageBody = `Halo kak, saya *${data.nama}* ingin gabung ke grup Silahturahmi Cari Kawan. Berikut info singkat saya:\nNama: ${data.nama}\nUsia: ${data.usia}\nAsal Kota: ${data.kota}\nStatus: ${data.status}\n\nMohon direspon ya kak. Terima kasih!`;
             }
             
@@ -638,7 +878,6 @@
                 const item = document.createElement('div');
                 item.className = 'contact-item';
 
-                // Buat konten teks
                 item.innerHTML = `
                     <span>
                         <strong>${contact.name}</strong><br>
@@ -646,20 +885,17 @@
                     </span>
                 `;
                 
-                // Buat tombol dan tambahkan event listener (SOLUSI BUG)
                 const button = document.createElement('button');
                 button.textContent = 'Japri WA';
                 
-                // Menggunakan addEventListener lebih aman daripada string onclick
                 button.addEventListener('click', () => {
                      openWhatsApp(contact.number, contact.name, messageBody);
                 });
                 
-                item.appendChild(button); // Tambahkan tombol ke item
-                container.appendChild(item); // Tambahkan item ke container
+                item.appendChild(button); 
+                container.appendChild(item); 
             });
             
-            // Tutup modal setelah submit
             if (formId === 'formKuis') {
                 closeModal('modalKuis');
             } else if (formId === 'formSilahturahmi') {
@@ -699,7 +935,6 @@
                 document.getElementById("myMenu").classList.remove('show');
             }
             
-            // Tutup modal jika mengklik di luar form (kecuali di form Kuis atau Silaturahmi)
             if (event.target.classList.contains('modal-overlay')) {
                 closeModal(event.target.id);
             }
